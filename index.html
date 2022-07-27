@@ -51,7 +51,15 @@
 
         <!-- lista contatti -->   <!-- v-for="(contact, index) in contacts" @click="setActiveContact(index)"
                                 :class="(index === activeContact) ? 'user active' : ''" v-if="contact.visible === true"> -->
-        <div class="contact-list">
+        
+        <!--  v-for="(contact, index) in contacts"
+                        @click="change_active_contact(index)"
+                        :class="index == active_contact ? 'active' : ''">-->
+        <!--   methods: {
+        change_active_contact(contact_index) {
+            this.active_contact = contact_index;???????-->
+        
+                                <div class="contact-list">
             <div v-for="(contact, index) in filteredContacts" class="contact" 
             :class="(index == currentContact ? 'contact-active' : null)" 
             @click="setIndexContact(index)">
@@ -103,7 +111,7 @@
         <!-- controlli nuovo messaggio -->
         <div class="text-section">
             <i class="far fa-smile"></i>
-            <input type="text" placeholder="Scrivi un messaggio" ><!--v-model="messageText ? ripartire da qui"-->
+            <input type="text" placeholder="Scrivi un messaggio" ><!--v-model="messageText ? ripartire da qui////v-for="message_object in contacts[active_contact].messages" "-->
             <i class="fas fa-microphone"></i>
         </div>
         <!-- /controlli nuovo messaggio -->
