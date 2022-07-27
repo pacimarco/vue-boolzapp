@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>boolzapp</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+    <!-- Left Side-->
+    <div id="l-side">
+        <!--nav utente-->
+        <div class="user-nav">
+
+            <div class="l-user-icons">
+                <img src="img/avatar_8.jpg" alt="Avatar Utente">
+                <span class="user-name">Marco</span>
+            </div>
+            <div class="r-user-icons">
+                <i class="fas fa-circle-notch"></i>
+                <i class="fas fa-comment-alt"></i>
+                <i class="fas fa-ellipsis-v"></i>
+            </div>
+
+        </div>
+        <!--nav utente-->
+
+        <!-- notifiche -->
+        <div class="notifica">
+            <div class="bell-background">
+            <i class="fas fa-bell-slash"></i>
+            </div>
+            <div class="notifications-texts">
+            <div class="strong">Ricevi notifiche di nuovi messaggi</div>
+            <a href="#">Attiva le notifiche desktop</a>
+            </div> 
+        </div>
+        <!-- /notifiche -->
+
+        <!-- ricerca contatti -->
+        <div class="chat-search">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" placeholder="Cerca o inizia una nuova chat" > <!--v-model??? key Enter???-->
+        </div>
+        <!-- /ricerca contatti -->
+
+        <!-- lista contatti -->   <!-- v-for="(contact, index) in contacts" @click="setActiveContact(index)"
+                                :class="(index === activeContact) ? 'user active' : ''" v-if="contact.visible === true"> -->
+        <div class="contact-list">
+            <div v-for="(contact, index) in filteredContacts" class="contact" 
+            :class="(index == currentContact ? 'contact-active' : null)" 
+            @click="setIndexContact(index)">
+                <div class="l-contact">
+                    <img :src="filteredContacts[index].avatar" alt="Avatar Contatto">
+                    <div class="info">
+                        <div class="contact-name">{{contact.name}}</div>
+                        <div v-if="contact.messages.length > 0" class="last-message">{{contact.messages.slice(-1)[0].text}}</div>
+                    </div>
+                </div>
+                <div class="r-contact">
+                    <div v-if="contact.messages.length > 0" class="message-time">{{contact.messages.slice(-1)[0].date}}</div>
+                </div>
+            </div>
+        </div>
+        <!-- /lista contatti -->
+    </div> <!-- /l-side -->
+
+    <!-- RIGHT SIDE -->
+    <div id="r-side">
+
+        <!-- nav contatto -->
+        <div class="contact-nav">
+            <div class="l-contact-icons">
+                <img :src="filteredContacts[currentContact].avatar" alt="Avatar Utente">
+                <div class="contact-info">
+                    <div class="contact-name">{{filteredContacts[currentContact].name}}</div>
+                    <div  v-if="filteredContacts[currentContact].messages.length > 0"  class="last-access">Ultimo accesso oggi alle ore {{filteredContacts[currentContact].messages.slice(-1)[0].date}}</div>
+                </div>
+            </div>
+            <div class="r-contact-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-paperclip"></i>
+                <i class="fas fa-ellipsis-v"></i>
+            </div>
+        </div>
+        <!-- /nav contatto -->
+
+        <!-- area messaggi -->
+        <div class="message-area">  <!--  v-for="(message, index) in contacts[activeContact].messages-->
+            <div v-for="(message, index) in filteredContacts[currentContact].messages" class="message" :class="(filteredContacts[currentContact].messages[index].status == 'sent') ? 'message-sent' : 'message-received'"><!--rivedere sintassi-->
+                {{filteredContacts[currentContact].messages[index].text}}
+                <span class="message-date">{{filteredContacts[currentContact].messages[index].date}}</span>
+                
+            </div>
+        </div>
+        <!-- /area messaggi -->
+
+        <!-- controlli nuovo messaggio -->
+        <div class="text-section">
+            <i class="far fa-smile"></i>
+            <input type="text" placeholder="Scrivi un messaggio" ><!--v-model="messageText ? ripartire da qui"-->
+            <i class="fas fa-microphone"></i>
+        </div>
+        <!-- /controlli nuovo messaggio -->
+
+    </div>
+    <!-- /RIGHT SIDE -->
+</div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
