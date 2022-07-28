@@ -181,11 +181,11 @@ var app = new Vue({
          newMessage: function(contact) {
             let newSentMessage = {
                 date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
-                text: this.messageText,
+                message: this.messageText,
                 status: 'sent'
             };
 
-            this.filteredContacts[contact].messages.push(newSentMessage);
+            this.contacts[contact].messages.push(newSentMessage);
 
             this.messageText = "";
 
@@ -193,11 +193,11 @@ var app = new Vue({
                 () => {
                     let newReceivedMessage = {
                         date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
-                        text: "ok",
+                        message: "ok",
                         status: 'received'
                     };
 
-                    this.filteredContacts[contact].messages.push(newReceivedMessage);
+                    this.contacts[contact].messages.push(newReceivedMessage);
                 },1000
             );
 
