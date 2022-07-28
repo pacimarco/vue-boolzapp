@@ -165,27 +165,82 @@ var app = new Vue({
                 ],
             },
         ],
-        currentContact: 0,
-        currentMessage: null,
-        messageText: '',
-        search: '',
+        currentContact: 0, //indice contatto
+        currentMessage: null, //indice messaggio
+        messageText: '', //spazio vuoto in messaggio
+        search: '', //campo vuoto per ricerca 
     },
+    
     methods: {
         setIndexContact: function(index) {
             this.currentContact = index;
             return this.currentContact;
-        }
+        },
+
+         // funzione che inserisci messaggio scritto nell'array e da la risposta//
+         newMessage: function(contact) {
+            let newSentMessage = {
+                date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+                text: this.messageText,
+                status: 'sent'
+            };
+
+            this.filteredContacts[contact].messages.push(newSentMessage);
+
+            this.messageText = "";
+
+            setTimeout(
+                () => {
+                    let newReceivedMessage = {
+                        date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+                        text: "ok",
+                        status: 'received'
+                    };
+
+                    this.filteredContacts[contact].messages.push(newReceivedMessage);
+                },1000
+            );
+
+        },
+        
+        //funzione per impostare index messaggio
+        setIndexMessage: function(index) {
+            this.currentMessage = index;
+            return this.currentMessage;
+        },
+
+        //funzione per rimuovere index messaggio
+        removeIndexMessage: function() {
+            this.currentMessage = null;
+            return this.currentMessage;
+        },
+ 
+         // funzione per eliminare il messaggio
+         deleteMessage: function(index, messageIndex) {
+            this.filteredContacts[index].messages.splice(messageIndex, 1);
+        },
     },
-        //filtro contatti rivedere uso di filter, sintassi non capita//
+    
+    //filtro contatti rivedere uso di filter, sintassi//
         computed: {
-            filteredContacts: function() {
+            filteredContacts() {
                 return this.contacts.filter(contact => {
                     return contact.name.toLowerCase().includes(this.search.toLowerCase());
+                
+                
+
                 }
                 );
             }
+
         }
-});
+    }
+);
+
+
+
+
+
 
 /*
 searchContact: function () {
@@ -201,6 +256,38 @@ searchContact: function () {
             }
 
         },
+
+oppure
+setActiveContact: function (index) {
+            this.activeContact = index;
+        },
+
+        -----
+         <div v-if="contacts.length > 0">
+                            <div v-for="(contact, index) in contacts" @click="setActiveContact(index)"
+                                :class="(index === activeContact) ? 'user active' : ''" v-if="contact.visible === true">
+                                <div class="flex-row">
+                                    <div>
+                                        <img class="user-image" :src="collegamento" :alt="contact.name" />
+                                    </div>
+                                    <div class="flex-column">
+                                        <span class="user-name">{{contact.name}}</span>
+
+                                        <span 
+                                            class="user-last-message">
+                                            {{contact.messages[contact.messages.length-1].message}}</span>
+                                    </div>
+                                    <div class="message-time-div">
+
+                                        <span
+                                            class="message-time">
+                                            {{contact.messages[contact.messages.length-1].date.split(' ')[1].slice(0, 5)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 */
 
         
